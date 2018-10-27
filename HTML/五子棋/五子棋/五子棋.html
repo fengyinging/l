@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+	<script type="text/javascript" src="jquery-3.1.1.js"></script>
+	<style type="text/css">
+		.box{
+			width: 500px;
+			height: 500px;
+			margin: 0px auto;
+			position: relative;
+			background: blue;
+		}
+		h1{
+			text-align: center;
+		}
+		body{
+			background: gray;
+		}
+	</style>
+	<body>
+		<h1>五子棋</h1>
+		<div class="box">
+			<table width="100%" height="100%" border="1" cellspacing="0">
+			</table>
+		</div>
+	</body>
+	</html>
+	<script type="text/javascript">
+	$(function() {
+		for(i=0;i<15;i++){
+			var $tr = $("<tr></tr>")
+			$("table").append($tr)
+			for(j=0;j<15;j++){
+				var $td = $("<td></td>");
+				$tr.append($td)
+			}
+		}
+		var $width= 500/15
+		$(".box").append($xy)
+		for(i=0;i<=15;i++){
+			for(j=0;j<=15;j++){
+				var x = i;
+				var y = j;
+				if(x<10){
+					x="0"+x
+				}
+				if(y<10){
+					y="0"+y
+				}
+				var $xy = $("<div></div>");
+				$xy.css({
+					position:"absolute",
+					width:"30px",
+					height:"30px",
+					borderRadius:"15px",
+					top:(i*$width-15)+"px",
+					left:(j*$width-15)+"px",
+					opacity:"0"
+				}).attr("true","flase").attr("xy",x+"+"+y)
+				$(".box").append($xy)
+			}
+		}
+
+
+		var $color = 1;
+		$(".box>div").bind({
+			mouseover:function(){
+				if($(this).attr("true")=="flase"){
+					$(this).css("opacity","1")
+					if ($color==1) {
+						$(this).css("background","white")
+					}else{
+						$(this).css("background","black")
+					}
+				}
+			},
+			mouseout:function(){
+				if($(this).attr("true")=="flase"){
+					$(this).css("opacity","0")
+					$(this).css("background","")
+				}
+			},
+			click:function(){
+				if ($color==1) {
+					$(this).css("background","#fff").attr("color","white")
+					var color = "white"
+				}else{
+					$(this).css("background","#000").attr("color","black")
+					var color = "black"
+				}
+				$(this).css("opacity","1").attr("true","true")
+				var $xy = $(this).attr("xy")
+				var $xString = $xy.substring(0,2) 
+				var $yString = $xy.substring(3,5)
+				var zuo=0;
+				var you=0;
+				var shang=0;
+				var xia=0;
+				var zuoshang=0;
+				var zuoxia=0;
+				var youshang=0;
+				var youxia=0;
+				// console.log($x)
+				// console.log($y)
+				
+				// 向左检测 
+				for(i=1;i<5;i++){
+					var $yNumble = parseInt($yString);
+					$yNumble = $yNumble-i;
+					if($yNumble<10){
+						$yNumble = "0"+$yNumble
+					}
+					var $this = $(".box>div[xy='"+$xString+"+"+$yNumble+"']")
+					if($this.attr("true")=="true"&&$this.attr("color")==color){
+						zuo++;
+							
+					}else{
+						break;
+					}
+				}
+				
+				//向右检测
+				for(i=1;i<5;i++){
+					var $yNumble = parseInt($yString);
+					$yNumble = $yNumble+i;
+					if($yNumble<10){
+						$yNumble = "0"+$yNumble
+					}
+					var $this = $(".box>div[xy='"+$xString+"+"+$yNumble+"']")
+					if($this.attr("true")=="true"&&$this.attr("color")==color){
+						you++;
+					}else{
+						break;
+					}
+				}
+
+				//向上检测 
+				for(i=1;i<5;i++){
+					var $xNumble = parseInt($xString);
+					$xNumble = $xNumble-i;
+					if($xNumble<10){
+						$xNumble = "0"+$xNumble
+					}
+					var $this = $(".box>div[xy='"+$xNumble+"+"+$yString+"']")
+					if($this.attr("true")=="true"&&$this.attr("color")==color){
+						shang++;
+					}else{
+						break;
+					}
+				}
+
+				//向下检测
+				for(i=1;i<5;i++){
+					var $xNumble = parseInt($xString);
+					$xNumble = $xNumble+i;
+					if($xNumble<10){
+						$xNumble = "0"+$xNumble
+					}
+					var $this = $(".box>div[xy='"+$xNumble+"+"+$yString+"']")
+					if($this.attr("true")=="true"&&$this.attr("color")==color){
+						xia++;
+					}else{
+						break;
+					}
+				}
+
+				// 向左上检测
+				for(i=1;i<5;i++){
+					var $xNumble = parseInt($xString);
+					var $yNumble = parseInt($yString);
+					$xNumble = $xNumble-i;
+					$yNumble = $yNumble-i;
+					if($xNumble<10){
+						$xNumble = "0"+$xNumble
+					}
+					if($yNumble<10){
+						$yNumble = "0"+$yNumble
+					}
+					var $this = $(".box>div[xy='"+$xNumble+"+"+$yNumble+"']")
+					if($this.attr("true")=="true"&&$this.attr("color")==color){
+						zuoshang++;
+					}else{
+						break;
+					}
+				}
+
+				//向右下检测
+				for(i=1;i<5;i++){
+					var $xNumble = parseInt($xString);
+					var $yNumble = parseInt($yString);
+					$xNumble = $xNumble+i;
+					$yNumble = $yNumble+i;
+					if($xNumble<10){
+						$xNumble = "0"+$xNumble
+					}
+					if($yNumble<10){
+						$yNumble = "0"+$yNumble
+					}
+					var $this = $(".box>div[xy='"+$xNumble+"+"+$yNumble+"']")
+					if($this.attr("true")=="true"&&$this.attr("color")==color){
+						youxia++;
+					}else{
+						break;
+					}
+				}
+				
+				// 向右上检测
+				for(i=1;i<5;i++){
+					var $xNumble = parseInt($xString);
+					var $yNumble = parseInt($yString);
+					$xNumble = $xNumble-i;
+					$yNumble = $yNumble+i;
+					if($xNumble<10){
+						$xNumble = "0"+$xNumble
+					}
+					if($yNumble<10){
+						$yNumble = "0"+$yNumble
+					}
+					var $this = $(".box>div[xy='"+$xNumble+"+"+$yNumble+"']")
+					if($this.attr("true")=="true"&&$this.attr("color")==color){
+						youshang++;
+							
+					}else{
+						break;
+					}
+				}
+
+				//向左下检测
+				for(i=1;i<5;i++){
+					var $xNumble = parseInt($xString);
+					var $yNumble = parseInt($yString);
+					$xNumble = $xNumble+i;
+					$yNumble = $yNumble-i;
+					if($xNumble<10){
+						$xNumble = "0"+$xNumble
+					}
+					if($yNumble<10){
+						$yNumble = "0"+$yNumble
+					}
+					var $this = $(".box>div[xy='"+$xNumble+"+"+$yNumble+"']")
+					if($this.attr("true")=="true"&&$this.attr("color")==color){
+						zuoxia++;
+							
+					}else{
+						break;
+					}
+				}
+				if(shang+xia>=4||zuo+you>=4||zuoshang+youxia>=4||youshang+zuoxia>=4){
+					if($color==1){
+						alert("白棋胜利")
+					}else{
+						alert("黑棋胜利")
+					}
+				}
+				$color = -$color				
+			}
+		})
+		
+		
+	})
+	</script>	
