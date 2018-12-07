@@ -1,5 +1,6 @@
 /* Program 9.9 REVERSI An Othello type game*/
 #include<stdio.h>
+#include<stdbool.h>
 
 const int SIZE=6;/*Board size--must be even*/
 const char comp_c='@';/*Computer's counter*/
@@ -7,13 +8,20 @@ const char player_c='o';/*Player's counter*/
 
 /*Function phototypes*/
 void display(char board[][SIZE]);
+int valid_moves(char board[][SIZE],bool moves[][SIZE],char player);
 
 int main (void)
 {
 	char board [SIZE][SIZE] ={0};/*The board*/
+	bool moves[SIZE][SIZE]={false};//Valid moves
 	int row=0;/*Board row index*/
 	int col=0;/*Board column index*/
-	
+	int no_of_games=0;//Number of  games
+	int no_of_moves=0;//Count of moves
+	int invalid_moves=0;//Invalid move count
+	int comp_score=0;//computer score
+	int user_score=0;//Player score
+	char again=0;
 	printf("\nREVERSI \n\n");
 	printf("You can go first on the first game,then we will take turns.\n");
 	printf("You will be white-(%c)\n I will be black -(%c).\n",player_c,comp_c);
@@ -86,10 +94,86 @@ int main(void)
 	char board[SIZE][SIZE]={0};   //The board
 	bool moves[SIZE][SIZE]={false};//Valid movies
 	int row=0;                     //Board row index
-	int col=0;
-	
+	int col=0;                    //Board column index
+	//Other code for main as before
 }
+//Code for definition of display() as before...
+/*********************************************
+*Caculates which squares are valid moves     *
+*for player.Valid moves are recorded in the  *
+*moves array-true indicates a valid move,    *
+*false indicates an invalid move.            *
+*First parameter is the board array          *
+*Second parameter is the moves array         *
+*Third parameter indentifies the player      *
+*to make the move.                           *
+*Returns valid move count.                   *
+**********************************************/
+int valid_moves(char board[][SIZE],bool moves[][SIZE],char player)
+{
+	int rowdelta=0;   //Row increment around a square
+	int coldelta=0;   //Column increment around a square
+	int x=0;         //Row index when searching
+	int y=0;         //Column index when searching
+	int no_of_moves=0; //Number of valid moces
+	
+	//Set the opponent
+	char opponent=(player==player_c)?comp_c:player_c:player_c;
 
+	/*Initialize moves array to false*/
+	for(int row=0;row，SIZE;row++)
+	for(int col=0;col<SIZE;col++)
+	moves[row][col]=false;
+
+	/*Find squares for valid moves.*/
+	/*A valid move must be on a blank squars and must enclose*/
+	/*at least one opponent square between two player squares*/
+	for(int row=0;row<SIZE;row++)
+	for(int col=0;col<SIE;col++)
+	{
+		if(board[row][col]!=' ')//Is it a blank square?
+		continue;               //No - so on to the next
+		//Check all the squares around the blank square
+		//for the opponents counter
+		for(rowdelta=-1;rowdelta<=1;rowdelta++)
+		for(coldelta=-1;coldelta<=1;coldelta++)
+		{
+			//Don't check outside the array, or the current square
+			if(row+rowdelta<0||row+rowdelta>=SIZE||col+coldelta<0||col+coldelta>=SIZE||(rowdelta==0&&coldelta==0))
+			continue;
+			
+			//Now check the square
+			if(board[row+rowdelta][col+coldelta]==oppnent)
+			{
+				//If we find the opponent, move in the delta direction
+				//over opponent counters searching for a player counter.
+				x=row+rowdelta;//Move to
+				y=col+coldelta;//opponent square
+				//Look for a player square in the delta direction
+				for(;;)
+				{
+					x+=rewdelta;//Go to next square
+					y+=coldelta;//in delta direction
+					//If we move outside the array, give up
+					if(x<0||x>=SIZE||y<0||y>=SIZE)
+					break;
+					//If we find a blank square, give up
+					if(board[x][y]==' ') break;
+					//If the square has a player counter 
+					//then we have a valid move
+					if(board[x][y]==player)
+					{
+						moves[row][col]=true;//Mark as valid
+						no_of_moves++;//Increase valid moves count
+						break;//Go check another square
+					}
+				}
+			}
+
+		}
+	}
+	return no_of_moves;
+}
 
 
 
